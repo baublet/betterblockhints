@@ -1,0 +1,3 @@
+<config>
+    <preference for="Magento\Developer\Model\TemplateEngine\Decorator\DebugHints" type="Rsc\BetterBlockHints\Model\TemplateEngine\Decorator\DebugHints" />
+</config>
