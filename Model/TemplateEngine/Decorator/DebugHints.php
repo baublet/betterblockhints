@@ -1,11 +1,11 @@
 <?php
-use Magento\Framework\View\TemplateEngineInterface;
-use Magento\Framework\View\Element\BlockInterface;
-use Magento\Developer\Model\TemplateEngine\Decorator\DebugHints;
-
 namespace Rsc\BetterBlockHints\Model\TemplateEngine\Decorator;
 
-class DebugHints extends DebugHints
+use Magento\Framework\View\TemplateEngineInterface;
+use Magento\Framework\View\Element\BlockInterface;
+use Magento\Developer\Model\TemplateEngine\Decorator\DebugHints as BaseDebugHints;
+
+class DebugHints extends BaseDebugHints
 {
     protected $stylesScriptsSent = false;
     protected $_subject;
@@ -23,9 +23,12 @@ class DebugHints extends DebugHints
 
     public function render(BlockInterface $block, $templateFile, array $dictionary = [])
     {
+        $parentBlocks = $this->getParentBlocks($block);
         $blockHtml = $this->_subject->render($block, $templateFile, $dictionary);
         $blockName = $block->getNameInLayout();
-        $blockClass = get_class($block);
+        $blockClass = '<small class="debugging-hints__extends">' .get_parent_class($block) . '</small>';
+        $blockClass .= '<span class="debugging-hints__class">' . get_class($block) . '</span>';
+
         $content = '';
         if(!$this->stylesScriptsSent) {
             $this->stylesScriptsSent = true;
@@ -39,12 +42,24 @@ class DebugHints extends DebugHints
                    . '</div>';
 
         $content .=   '<div class="debugging-hints__block-info" id="' . $debugBlockId . '" style="z-index:'.($this->_i+999).'">'
-                    . '     <strong>Block Name:</strong> ' . $blockName . '<br><br>'
+                    . (!empty($blockName) ? '     <strong>Block Name:</strong> ' . $blockName . '<br><br>' : '')
                     . '     <strong>Block Template:</strong> ' . $templateFile . '<br><br>'
-                    . '     <strong>Block Class:</strong> ' . $blockClass . '<br>'
+                    . '     <strong>Block Class:</strong> ' . $blockClass . '<br><br>'
+                    . (count($parentBlocks) ? '     <strong>Block Parents:</strong>' . implode(' &raquo; ', $parentBlocks) . '<br><br>' : '' )
                     . '</div>';
 
         return $content;
+    }
+
+    protected function getParentBlocks($block)
+    {
+        $parents = [];
+        while($parent = $block->getParentBlock())
+        {
+            $parents[] = $parent->getNameInLayout();
+            $block = $parent;
+        }
+        return array_reverse($parents);
     }
 
     protected function stylesScripts() {
@@ -101,6 +116,25 @@ class DebugHints extends DebugHints
                     color: white !important;
                     padding: .25rem;
                     margin-bottom: 12px;
+                }
+                .debugging-hints__extends {
+                    display: block;
+                    font-size: 9px;
+                    color: #888;
+                    position: relative;
+                }
+                .debugging-hints__extends:after {
+                    display: block;
+                    content: " ";
+                    border-left: 1px solid black;
+                    border-bottom: 1px solid black;
+                    height: 10px;
+                    width: 3px;
+                    position: absolute;
+                    bottom: -10px;
+                }
+                .debugging-hints__class {
+                    padding-left: 7px;
                 }
             </style>
 
