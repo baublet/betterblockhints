@@ -1,6 +1,6 @@
 {
     "name": "rsc/betterblockhints",
-    "description": "N/A",
+    "description": "Better template block hints for designing Magento2 templates and modifying layout XML",
     "require": {
         "php": "~5.6.5|7.0.2|7.0.4|~7.0.6"
     },
