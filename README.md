@@ -4,9 +4,11 @@ Better Block Hints is a very simple Magento2 extension for helping you work with
 
 This extension helps address this problem by making block hints toggleable in the browser, and showing much more useful information.
 
-## Use
+## Installation
 
-Navigate to your base Magento2 directory (the one with the `app`, `pub`, and `dev` directories and run the command `composer require rsc/betterblockhints`. Then run `bin/magento setup:upgrade`.
+Navigate to your base Magento2 directory (the one with the `app`, `pub`, and `dev` directories and run the command `composer require rsc/betterblockhints --dev`. Then run `bin/magento setup:upgrade`.
+
+## Use
 
 Turn on [template path hints in Magento 2](https://magecomp.com/blog/enable-template-path-hints-in-magento-2/).
 
