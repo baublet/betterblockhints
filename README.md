@@ -6,6 +6,8 @@ This extension helps address this problem by making block hints toggleable in th
 
 ## Use
 
+Navigate to your base Magento2 directory (the one with the `app`, `pub`, and `dev` directories and run the command `composer require rsc/betterblockhints`. Then run `bin/magento setup:upgrade`.
+
 Turn on [template path hints in Magento 2](https://magecomp.com/blog/enable-template-path-hints-in-magento-2/).
 
 Refresh your page and hold either the **ALT**, **SHIFT**, **CMD**, or **CTRL** keys to show template hints. To get information about a block, hover over it and click it. The block you wanted to learn more about will stay fixed to the middle of the screen until you press any action key again (control, shift, command, or alt).
